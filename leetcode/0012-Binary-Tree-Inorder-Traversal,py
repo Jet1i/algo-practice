@@ -1,0 +1,51 @@
+# LeetCode 94. Binary Tree Inorder Traversal
+# Link: https://leetcode.com/problems/binary-tree-inorder-traversal/
+#
+# Idea (Recursion = implicit iteration):
+#   - Inorder traversal = Left → Root → Right
+#   - Define a recursive helper dfs(node):
+#       * Base case: if node == None → return
+#       * Recursive case:
+#           1) dfs(node.left)
+#           2) visit node.val
+#           3) dfs(node.right)
+#   - No explicit loop (for/while), but recursion itself repeatedly
+#     calls the function on subproblems until hitting base case.
+#   - Function calls form a call stack, which naturally simulates iteration.
+#
+# Example:
+#       2
+#      / \
+#     1   3
+#
+#   dfs(2):
+#     → dfs(1)
+#         → dfs(None) → return
+#         → visit 1
+#         → dfs(None) → return
+#     → visit 2
+#     → dfs(3)
+#         → dfs(None) → return
+#         → visit 3
+#         → dfs(None) → return
+#   Result: [1, 2, 3]
+#
+# Complexity:
+#   - Time: O(n), every node visited once.
+#   - Space: O(h), recursion stack depth h = tree height.
+#
+# Interview takeaway:
+#   - Recursion is “hidden iteration” via the call stack.
+#   - Each node is visited in Left → Root → Right order
+#     because of the recursive call structure.
+
+class Solution:
+    def inorderTraversal(self, root):
+        res = []
+        def dfs(node):
+            if not node: return
+            dfs(node.left)
+            res.append(node.val)
+            dfs(node.right)
+        dfs(root)
+        return res
